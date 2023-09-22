@@ -56,31 +56,37 @@ topRightFrame.grid(row=0, column=2, sticky=N)
 
 lblCompanyName = Label(topRightFrame, text='Company Name:')
 lblCompanyName.grid(row=0, column=0, pady=5)
-txtCompanyName = Entry(topRightFrame)
+txtCompanyName = Entry(topRightFrame, width=30)
 txtCompanyName.grid(row=0, column=1, padx=10)
 
 lblJobTitle = Label(topRightFrame, text='Job Title:')
 lblJobTitle.grid(row=1, column=0, pady=5)
-txtJobTitle = Entry(topRightFrame)
+txtJobTitle = Entry(topRightFrame, width=30)
 txtJobTitle.grid(row=1, column=1)
 
 lblDateApplied = Label(topRightFrame, text='Date Applied:')
 lblDateApplied.grid(row=2, column=0, pady=5)
-txtDateApplied = Entry(topRightFrame)
+txtDateApplied = Entry(topRightFrame, width=30)
 txtDateApplied.grid(row=2, column=1)
 
 lblResult = Label(topRightFrame, text='Result:')
 lblResult.grid(row=3, column=0, pady=5)
-txtResult = Entry(topRightFrame)
+txtResult = Entry(topRightFrame, width=30)
 txtResult.grid(row=3, column=1)
 
 lblDateResult = Label(topRightFrame, text='Date Result Received:')
 lblDateResult.grid(row=4, column=0, pady=5)
-txtDateResult = Entry(topRightFrame)
+txtDateResult = Entry(topRightFrame, width=30)
 txtDateResult.grid(row=4, column=1)
 
-btnAddEntry = Button(topRightFrame, text='Add Entry', width=25, command=lambda : NewEntry())
+btnAddEntry = Button(topRightFrame, text='Add Entry', width=40, command=lambda : NewEntry())
 btnAddEntry.grid(row=5, columnspan=2)
+
+#Middle Row
+btnEditEntry = Button(window, text='Edit Entry', width=40)
+btnEditEntry.grid(row=1, columnspan=2, pady=5)
+btnEditEntry = Button(window, text='Delete Entry', width=40)
+btnEditEntry.grid(row=1, column=2, columnspan=2)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
