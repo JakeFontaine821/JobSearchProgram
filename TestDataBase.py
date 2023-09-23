@@ -23,12 +23,19 @@ class JobSearchDataBaseComms():
 
         self.cursor.execute(query)
         self.mydb.commit()
+        print("Entry complete")
 
     def LoadEntries(self):
         query = "SELECT * FROM job_entries"
         self.cursor.execute(query)
         entries = self.cursor.fetchall()
         return entries
+    
+    def DeleteEntry(self, eid):
+        query = "DELETE FROM job_entries where eid= {}".format(eid)
+        self.cursor.execute(query)
+        self.mydb.commit()
+        print("Entry Deleted")
 
     def CloseConnection(self):
         print("Connection Closed")

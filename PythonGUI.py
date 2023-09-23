@@ -27,8 +27,13 @@ def ReloadEntries():
     for entry in database.LoadEntries():
         list.insert(END, "{} - {}".format(entry[1], entry[2]))
 
+def DeleteEntry():
+    for entry in list.curselection():
+        database.DeleteEntry(entry)
+    ReloadEntries()
 
 window = Tk()
+window.title("List of Job Applications Submitted")
 # Top Menu
 menu = Menu(window)
 window.config(menu=menu)
@@ -85,7 +90,8 @@ btnAddEntry.grid(row=5, columnspan=2)
 #Middle Row
 btnEditEntry = Button(window, text='Edit Entry', width=40)
 btnEditEntry.grid(row=1, columnspan=2, pady=5)
-btnEditEntry = Button(window, text='Delete Entry', width=40)
+
+btnEditEntry = Button(window, text='Delete Entry', width=40, command=lambda : DeleteEntry())
 btnEditEntry.grid(row=1, column=2, columnspan=2)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
