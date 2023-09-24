@@ -4,44 +4,56 @@ import GUIEntryFrame
 
 database = db.JobSearchDataBaseComms()
 
+mainFrame = GUIEntryFrame.EntryFrame()
+updateFrame = GUIEntryFrame.EntryFrame()
+
 def on_closing():
     database.CloseConnection()
     window.quit()
 
-def NewEntry():
-    companyName = addEntryFrame.txtCompanyName.get()
-    jobTitle = addEntryFrame.txtJobTitle.get()
-    dateApplied = addEntryFrame.txtDateApplied.get()
-    result = addEntryFrame.txtResult.get()
-    dateResult = addEntryFrame.txtDateResult.get()
-    if companyName != "" and jobTitle != "" and dateApplied != "":
-        database.AddJobEntry(companyName, jobTitle, dateApplied, result, dateResult)
-        addEntryFrame.txtCompanyName.delete(0,END)
-        addEntryFrame.txtJobTitle.delete(0,END)
-        addEntryFrame.txtDateApplied.delete(0,END)
-        addEntryFrame.txtResult.delete(0,END)
-        addEntryFrame.txtDateResult.delete(0,END)
+def GetText(frame):
+    companyName = frame.txtCompanyName.get()
+    jobTitle = frame.txtJobTitle.get()
+    dateApplied = frame.txtDateApplied.get()
+    result = frame.txtResult.get()
+    dateResult = frame.txtDateResult.get()
+    return [companyName, jobTitle, dateApplied, result, dateResult]
+
+def ClearEntryBoxes(frame):
+    frame.txtCompanyName.delete(0,END)
+    frame.txtJobTitle.delete(0,END)
+    frame.txtDateApplied.delete(0,END)
+    frame.txtResult.delete(0,END)
+    frame.txtDateResult.delete(0,END)
+
+def NewEntry(frame):
+    newEntry = GetText(frame)
+    if newEntry[0] != "" and newEntry[1] != "" and newEntry[2] != "":
+        database.AddJobEntry(newEntry)
+        ClearEntryBoxes(frame)
         ReloadEntries()
 
 def ReloadEntries():
     list.delete(0,END)
     for entry in database.LoadEntries():
-        list.insert(END, "{} - {}".format(entry[1], entry[2]))
+        list.insert(END, "{} - {} - {}".format(entry[1], entry[2], entry[4]))
 
 def DeleteEntry():
     for entry in list.curselection():
         database.DeleteEntry(entry)
     ReloadEntries()
 
+def UpdateEntry(eid, frame):
+    newEntry = GetText(frame)
+    if newEntry[0] != "" and newEntry[1] != "" and newEntry[2] != "":
+        database.UpdateEntry(eid, newEntry)
+        ReloadEntries()
+        frame.newFrame.destroy()
+
 def CreateUpdateWindow():
     if len(list.curselection()) == 1:
-        # Create New Frame
-        updateFrame = GUIEntryFrame.EntryFrame()
+        # Create New Frame    
         newWindow = updateFrame.CreateEntryFrame(window=window, editPage=True)
-        # Throw In Button
-        btnUpdateEntry = Button(newWindow, text='Update Entry', width=40)
-        btnUpdateEntry.grid(row=5, columnspan=2)
-        # Set Title
         newWindow.title("Update Window")
         # Set Up Entry Boxes
         entryData = database.RetrieveEntry(list.curselection()[0])
@@ -51,6 +63,10 @@ def CreateUpdateWindow():
         updateFrame.txtDateApplied.insert(0, entryData[3])
         updateFrame.txtResult.insert(0, entryData[4])
         updateFrame.txtDateResult.insert(0, entryData[5])
+        # Throw In Button
+        btnUpdateEntry = Button(newWindow, text='Update Entry', width=40, command=lambda : UpdateEntry(entryEID, updateFrame))
+        btnUpdateEntry.grid(row=5, columnspan=2)        
+        
 
 window = Tk()
 window.title("List of Job Applications Submitted")
@@ -76,11 +92,10 @@ list.grid(row=0, column=0)
 scrollbar.config( command = list.yview )
 
 # Top Right
-addEntryFrame = GUIEntryFrame.EntryFrame()
-topRightFrame = addEntryFrame.CreateEntryFrame(window=window, width=110)
+topRightFrame = mainFrame.CreateEntryFrame(window=window, width=110)
 topRightFrame.grid(row=0, column=2, sticky=N)
 
-btnAddEntry = Button(topRightFrame, text='Add Entry', width=40, command=lambda : NewEntry())
+btnAddEntry = Button(topRightFrame, text='Add Entry', width=40, command=lambda : NewEntry(mainFrame))
 btnAddEntry.grid(row=5, columnspan=2)
 
 #Middle Row

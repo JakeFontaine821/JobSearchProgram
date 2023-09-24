@@ -15,11 +15,11 @@ class JobSearchDataBaseComms():
         print(self.mydb)
         self.cursor = self.mydb.cursor()
 
-    def AddJobEntry(self, companyName, jobTitle, dateApplied, result, dateResult):
+    def AddJobEntry(self, entryData):
         self.cursor.execute("SELECT count(*) from job_entries")
         newEID = self.cursor.fetchone()
 
-        query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', '{}')".format(newEID[0], companyName, jobTitle, dateApplied, result, dateResult)
+        query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', '{}')".format(newEID[0], entryData[0], entryData[1], entryData[2], entryData[3], entryData[4])
 
         self.cursor.execute(query)
         self.mydb.commit()
@@ -42,6 +42,12 @@ class JobSearchDataBaseComms():
         self.cursor.execute(query)
         entries = self.cursor.fetchone()
         return entries
+
+    def UpdateEntry(self, eid, entryData):
+        query = "UPDATE job_entries set company_name='{}', job_title='{}', date_applied='{}', result='{}', date_result='{}' where eid={};".format(entryData[0], entryData[1], entryData[2], entryData[3], entryData[4], eid)
+        self.cursor.execute(query)
+        self.mydb.commit()
+        print("Entry Updated")
 
     def CloseConnection(self):
         print("Connection Closed")
