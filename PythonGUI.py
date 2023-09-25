@@ -28,7 +28,7 @@ def ClearEntryBoxes(frame):
 
 def NewEntry(frame):
     newEntry = GetText(frame)
-    if newEntry[0] != "" and newEntry[1] != "" and newEntry[2] != "":
+    if newEntry[0] != "" and newEntry[1] != "":
         database.AddJobEntry(newEntry)
         ClearEntryBoxes(frame)
         ReloadEntries()
@@ -36,7 +36,7 @@ def NewEntry(frame):
 def ReloadEntries():
     list.delete(0,END)
     for entry in database.LoadEntries():
-        list.insert(END, "{} - {} - {}".format(entry[1], entry[2], entry[4]))
+        list.insert(END, "{} | {} ----- {}".format(entry[1], entry[2], entry[4]))
 
 def DeleteEntry():
     for entry in list.curselection():
@@ -66,7 +66,6 @@ def CreateUpdateWindow():
         # Throw In Button
         btnUpdateEntry = Button(newWindow, text='Update Entry', width=40, command=lambda : UpdateEntry(entryEID, updateFrame))
         btnUpdateEntry.grid(row=5, columnspan=2)        
-        
 
 window = Tk()
 window.title("List of Job Applications Submitted")
@@ -86,9 +85,9 @@ helpmenu.add_command(label='About')
 # Top Left
 scrollbar = Scrollbar(window)
 scrollbar.grid(row=0, column=1, sticky=NS)
-list = Listbox(window, yscrollcommand = scrollbar.set, width=50)
+list = Listbox(window, yscrollcommand = scrollbar.set, width=60)
 ReloadEntries()
-list.grid(row=0, column=0)
+list.grid(row=0, column=0, padx=5)
 scrollbar.config( command = list.yview )
 
 # Top Right
@@ -104,6 +103,10 @@ btnEditEntry.grid(row=1, columnspan=2, pady=5)
 
 btnEditEntry = Button(window, text='Delete Entry', width=40, command=lambda : DeleteEntry())
 btnEditEntry.grid(row=1, column=2, columnspan=2)
+
+# Bottom Section
+canvas = Canvas(window, width=700, height=250, highlightthickness=2, highlightbackground="black")
+canvas.grid(row=2, column=0, columnspan=3)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()

@@ -19,7 +19,10 @@ class JobSearchDataBaseComms():
         self.cursor.execute("SELECT count(*) from job_entries")
         newEID = self.cursor.fetchone()
 
-        query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', '{}')".format(newEID[0], entryData[0], entryData[1], entryData[2], entryData[3], entryData[4])
+        if entryData[2] == '':
+            query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', CURDATE(), '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[3])
+        else:
+            query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[2], entryData[3])
 
         self.cursor.execute(query)
         self.mydb.commit()
