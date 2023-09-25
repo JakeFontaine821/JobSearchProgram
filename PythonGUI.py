@@ -62,7 +62,7 @@ def CreateUpdateWindow():
         updateFrame.txtJobTitle.insert(0, entryData[2])
         updateFrame.txtDateApplied.insert(0, entryData[3])
         updateFrame.txtResult.insert(0, entryData[4])
-        updateFrame.txtDateResult.insert(0, entryData[5])
+        updateFrame.txtDateResult.insert(0, str(entryData[5]))
         # Throw In Button
         btnUpdateEntry = Button(newWindow, text='Update Entry', width=40, command=lambda : UpdateEntry(entryEID, updateFrame))
         btnUpdateEntry.grid(row=5, columnspan=2)        

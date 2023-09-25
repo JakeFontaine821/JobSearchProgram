@@ -20,35 +20,39 @@ class JobSearchDataBaseComms():
         newEID = self.cursor.fetchone()
 
         if entryData[2] == '':
-            query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', CURDATE(), '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[3])
+            self.query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', CURDATE(), '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[3])
         else:
-            query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[2], entryData[3])
+            self.query = "insert into job_entries (eid, company_name, job_title, date_applied, result, date_result) values ({}, '{}', '{}', '{}', '{}', NULL)".format(newEID[0], entryData[0], entryData[1], entryData[2], entryData[3])
 
-        self.cursor.execute(query)
+        self.cursor.execute(self.query)
         self.mydb.commit()
         print("Entry complete")
 
     def LoadEntries(self):
-        query = "SELECT * FROM job_entries"
-        self.cursor.execute(query)
+        self.query = "SELECT * FROM job_entries"
+        self.cursor.execute(self.query)
         entries = self.cursor.fetchall()
         return entries
     
     def DeleteEntry(self, eid):
-        query = "DELETE FROM job_entries where eid= {}".format(eid)
-        self.cursor.execute(query)
+        self.query = "DELETE FROM job_entries where eid= {}".format(eid)
+        self.cursor.execute(self.query)
         self.mydb.commit()
         print("Entry Deleted")
 
     def RetrieveEntry(self, eid):
-        query = "SELECT * FROM job_entries where eid= {}".format(eid)
-        self.cursor.execute(query)
-        entries = self.cursor.fetchone()
-        return entries
+        self.query = "SELECT * FROM job_entries where eid= {}".format(eid)
+        self.cursor.execute(self.query)
+        self.updateEntry = self.cursor.fetchone()
+        print(self.updateEntry)
+        return self.updateEntry
 
     def UpdateEntry(self, eid, entryData):
-        query = "UPDATE job_entries set company_name='{}', job_title='{}', date_applied='{}', result='{}', date_result='{}' where eid={};".format(entryData[0], entryData[1], entryData[2], entryData[3], entryData[4], eid)
-        self.cursor.execute(query)
+        if entryData[4] == 'None':
+            self.query = "UPDATE job_entries set company_name='{}', job_title='{}', date_applied='{}', result='{}' where eid={};".format(entryData[0], entryData[1], entryData[2], entryData[3], eid)
+        else:
+            self.query = "UPDATE job_entries set company_name='{}', job_title='{}', date_applied='{}', result='{}', date_result='{}' where eid={};".format(entryData[0], entryData[1], entryData[2], entryData[3], entryData[4], eid)
+        self.cursor.execute(self.query)
         self.mydb.commit()
         print("Entry Updated")
 
