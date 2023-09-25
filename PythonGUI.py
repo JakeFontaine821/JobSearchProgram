@@ -1,6 +1,8 @@
 from tkinter import *
+import tkinter.messagebox
 import TestDataBase as db
 import GUIEntryFrame
+from datetime import date
 
 database = db.JobSearchDataBaseComms()
 
@@ -28,7 +30,12 @@ def ClearEntryBoxes(frame):
 
 def NewEntry(frame):
     newEntry = GetText(frame)
-    if newEntry[0] != "" and newEntry[1] != "":
+    today = date.today()
+    if newEntry[2] != '' and newEntry[2] != str(today):
+        tkinter.messagebox.showerror("Error", "Date Applied must be blank or follow YYYY-MM-DD")
+    elif newEntry[0] == "" or newEntry[1] == "":
+        tkinter.messagebox.showerror("Error", "Company Name and Job Title MUST have entries")
+    else:
         database.AddJobEntry(newEntry)
         ClearEntryBoxes(frame)
         ReloadEntries()
