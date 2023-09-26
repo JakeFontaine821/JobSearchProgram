@@ -43,11 +43,12 @@ def NewEntry(frame):
 def ReloadEntries():
     list.delete(0,END)
     for entry in database.LoadEntries():
-        list.insert(END, "{} | {} ----- {}".format(entry[1], entry[2], entry[4]))
+        list.insert(END, "{}. {} | {} ----- {}".format(entry[0], entry[1], entry[2], entry[4]))
 
 def DeleteEntry():
-    for entry in list.curselection():
-        database.DeleteEntry(entry)
+    for index in list.curselection():
+        entry = list.get(index)
+        database.DeleteEntry(entry[0])
     ReloadEntries()
 
 def UpdateEntry(eid, frame):
@@ -59,11 +60,12 @@ def UpdateEntry(eid, frame):
 
 def CreateUpdateWindow():
     if len(list.curselection()) == 1:
-        # Create New Frame    
+        # Create New Frame
         newWindow = updateFrame.CreateEntryFrame(window=window, editPage=True)
         newWindow.title("Update Window")
         # Set Up Entry Boxes
-        entryData = database.RetrieveEntry(list.curselection()[0])
+        entry = list.get(list.curselection()[0])
+        entryData = database.RetrieveEntry(entry[0])
         entryEID = entryData[0]
         updateFrame.txtCompanyName.insert(0, entryData[1])
         updateFrame.txtJobTitle.insert(0, entryData[2])
