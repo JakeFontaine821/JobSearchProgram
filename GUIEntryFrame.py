@@ -20,7 +20,7 @@ class EntryFrame():
         self.txtJobTitle = Entry(self.newFrame, width=30)
         self.txtJobTitle.grid(row=1, column=1)
 
-        self.lblDateApplied = Label(self.newFrame, text='Date Applied:')
+        self.lblDateApplied = Label(self.newFrame, text='Date Applied:(YYYY-MM-DD)')
         self.lblDateApplied.grid(row=2, column=0, pady=5)
         self.txtDateApplied = Entry(self.newFrame, width=30)
         self.txtDateApplied.grid(row=2, column=1)
@@ -30,7 +30,7 @@ class EntryFrame():
         self.txtResult = Entry(self.newFrame, width=30)
         self.txtResult.grid(row=3, column=1)
 
-        self.lblDateResult = Label(self.newFrame, text='Date Result Received:')
+        self.lblDateResult = Label(self.newFrame, text='Date Result Received:(YYYY-MM-DD)')
         self.lblDateResult.grid(row=4, column=0, pady=5)
         self.txtDateResult = Entry(self.newFrame, width=30)
         self.txtDateResult.grid(row=4, column=1)
