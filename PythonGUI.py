@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.messagebox
 from datetime import datetime
+from enum import Enum
 
 import TestDataBase as db
 import GUIEntryFrame
@@ -9,6 +10,10 @@ database = db.JobSearchDataBaseComms()
 
 mainFrame = GUIEntryFrame.EntryFrame()
 updateFrame = GUIEntryFrame.EntryFrame()
+
+class Graph(Enum):
+    DAILYAPPS = 1
+graph = Graph.DAILYAPPS.value
 
 def on_closing():
     database.CloseConnection()
@@ -125,9 +130,16 @@ btnEditEntry.grid(row=1, columnspan=2, pady=5)
 btnEditEntry = Button(window, text='Delete Entry', width=40, command=lambda : DeleteEntry())
 btnEditEntry.grid(row=1, column=2, columnspan=2)
 
+# Middle Section
+middleFrame = Frame(window)
+middleFrame.grid(row=2, column=0, columnspan=3, pady=5)
+
+Radiobutton(middleFrame, text="Applications", variable=graph, value=Graph.DAILYAPPS.value).grid(row=0, column=0)
+Radiobutton(middleFrame, text="DASFHSFRTGJ", variable=graph, value=Graph.DAILYAPPS.value).grid(row=0, column=1)
+
 # Bottom Section
-canvas = Canvas(window, width=700, height=250, highlightthickness=2, highlightbackground="black")
-canvas.grid(row=2, column=0, columnspan=3)
+canvas = Canvas(window, width=800, height=250, highlightthickness=2, highlightbackground="black")
+canvas.grid(row=3, column=0, columnspan=3)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
