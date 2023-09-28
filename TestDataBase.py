@@ -60,7 +60,7 @@ class JobSearchDataBaseComms():
     def GetEntriesFromLastThirtyDays(self):
         thirty_days_ago = datetime.now() - timedelta(days=30)
         thirty_days_ago = thirty_days_ago.strftime("%Y-%m-%d")
-        query = "SELECT * FROM job_entries WHERE date_applied >= {}".format(thirty_days_ago)
+        query = "SELECT * FROM jobsearchschema.job_entries WHERE DATEDIFF(CURDATE(),date_applied) <= 30"
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         print(result)

@@ -10,3 +10,10 @@ class Graphs():
         y = [i**2 for i in range(101)]
         plot1 = figure.add_subplot(111)
         plot1.plot(y)
+        print("Will put actual graph here")
+
+    def Graph_Placeholder(self, figure):
+        self.databaseOBJ.GetEntriesFromLastThirtyDays()
+        y = [i**2 for i in range(101)]
+        plot1 = figure.add_subplot(111)
+        plot1.plot(y)

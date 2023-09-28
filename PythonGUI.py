@@ -146,7 +146,7 @@ Radiobutton(middleFrame, text="dgfshjmdghj", variable=graph, value=3).grid(row=0
 figure = Figure(figsize=(7.5, 3), dpi=100)
 ######################## Actual graph section
 graphManager = GUIGraphs.Graphs(database)
-graphManager.Graph_EntriesPerDay(figure)
+graphManager.Graph_Placeholder(figure)
 ########################
 canvas = FigureCanvasTkAgg(figure, master=middleFrame)  
 canvas.draw()
