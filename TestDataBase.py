@@ -70,6 +70,12 @@ class JobSearchDataBaseComms():
         self.cursor.execute(self.query)
         result = self.cursor.fetchall()
         return result
+    
+    def GetResultWithDate(self, date):
+        self.query = "SELECT * FROM job_entries WHERE date_result='{}'".format(date)
+        self.cursor.execute(self.query)
+        result = self.cursor.fetchall()
+        return result
 
     def CloseConnection(self):
         print("Connection Closed")

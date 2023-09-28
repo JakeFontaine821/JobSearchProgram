@@ -14,6 +14,8 @@ database = db.JobSearchDataBaseComms()
 mainFrame = GUIEntryFrame.EntryFrame()
 updateFrame = GUIEntryFrame.EntryFrame()
 
+graphManager = GUIGraphs.Graphs(database)
+
 def on_closing():
     database.CloseConnection()
     window.quit()
@@ -133,18 +135,15 @@ btnDeleteEntry.grid(row=1, column=2, columnspan=2)
 middleFrame = Frame(window)
 middleFrame.grid(row=2, column=0, columnspan=3, pady=5)
 
-Button(middleFrame, text="Applications Per Day", width=33).grid(row=0, column=0)
-Button(middleFrame, text="DASFHSFRTGJ", width=33).grid(row=0, column=1)
-Button(middleFrame, text="dgfshjmdghj", width=33).grid(row=0, column=2)
+graphFigure = Figure(figsize=(7.5, 4), dpi=100)
 
-# Bottom Section
-figure = Figure(figsize=(7.5, 3), dpi=100)
+Button(middleFrame, text="Applications Per Day", width=33).grid(row=0, column=0)
+Button(middleFrame, text="Results Per Day", width=33).grid(row=0, column=1)
+Button(middleFrame, text="Placeholder", width=33).grid(row=0, column=2)
 ######################## Actual graph section
-graphManager = GUIGraphs.Graphs(database)
-# graphManager.Graph_Placeholder(figure)
-graphManager.Graph_EntriesPerDay(figure)
+graphManager.Graph_EntriesPerDay(graphFigure)
 ########################
-canvas = FigureCanvasTkAgg(figure, master=middleFrame)
+canvas = FigureCanvasTkAgg(graphFigure, master=middleFrame)
 canvas.draw()
 canvas.get_tk_widget().grid(columnspan=3)
 
