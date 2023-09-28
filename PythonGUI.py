@@ -1,10 +1,9 @@
 from tkinter import *
 import tkinter.messagebox
 from datetime import datetime
-from enum import Enum
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
-NavigationToolbar2Tk)
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import TestDataBase as db
 import GUIEntryFrame
@@ -14,9 +13,6 @@ database = db.JobSearchDataBaseComms()
 
 mainFrame = GUIEntryFrame.EntryFrame()
 updateFrame = GUIEntryFrame.EntryFrame()
-
-class Graph(Enum):
-    DAILYAPPS = 1
 
 def on_closing():
     database.CloseConnection()
@@ -146,11 +142,13 @@ Radiobutton(middleFrame, text="dgfshjmdghj", variable=graph, value=3).grid(row=0
 figure = Figure(figsize=(7.5, 3), dpi=100)
 ######################## Actual graph section
 graphManager = GUIGraphs.Graphs(database)
-graphManager.Graph_Placeholder(figure)
+# graphManager.Graph_Placeholder(figure)
+graphManager.Graph_EntriesPerDay(figure)
 ########################
-canvas = FigureCanvasTkAgg(figure, master=middleFrame)  
+canvas = FigureCanvasTkAgg(figure, master=middleFrame)
 canvas.draw()
 canvas.get_tk_widget().grid(columnspan=3)
+
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()

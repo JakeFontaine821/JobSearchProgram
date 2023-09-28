@@ -60,10 +60,16 @@ class JobSearchDataBaseComms():
     def GetEntriesFromLastThirtyDays(self):
         thirty_days_ago = datetime.now() - timedelta(days=30)
         thirty_days_ago = thirty_days_ago.strftime("%Y-%m-%d")
-        query = "SELECT * FROM jobsearchschema.job_entries WHERE DATEDIFF(CURDATE(),date_applied) <= 30"
-        self.cursor.execute(query)
+        self.query = "SELECT * FROM job_entries WHERE DATEDIFF(CURDATE(),date_applied) <= 30"
+        self.cursor.execute(self.query)
         result = self.cursor.fetchall()
         print(result)
+
+    def GetEntryWithDate(self, date):
+        self.query = "SELECT * FROM job_entries WHERE date_applied='{}'".format(date)
+        self.cursor.execute(self.query)
+        result = self.cursor.fetchall()
+        return result
 
     def CloseConnection(self):
         print("Connection Closed")
