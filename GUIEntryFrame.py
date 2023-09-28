@@ -2,7 +2,7 @@ from tkinter import *
 
 class EntryFrame():
     def __init__(self):
-        print("init")
+        print("init EntryFrame")
 
     def CreateEntryFrame(self, window, width=None, height=None, editPage=None):
         if editPage:

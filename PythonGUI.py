@@ -2,9 +2,13 @@ from tkinter import *
 import tkinter.messagebox
 from datetime import datetime
 from enum import Enum
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
+NavigationToolbar2Tk)
 
 import TestDataBase as db
 import GUIEntryFrame
+import GUIGraphs
 
 database = db.JobSearchDataBaseComms()
 
@@ -13,7 +17,6 @@ updateFrame = GUIEntryFrame.EntryFrame()
 
 class Graph(Enum):
     DAILYAPPS = 1
-graph = Graph.DAILYAPPS.value
 
 def on_closing():
     database.CloseConnection()
@@ -127,19 +130,27 @@ btnAddEntry.grid(row=5, columnspan=2)
 btnEditEntry = Button(window, text='Edit Entry', width=40, command=lambda : CreateUpdateWindow())
 btnEditEntry.grid(row=1, columnspan=2, pady=5)
 
-btnEditEntry = Button(window, text='Delete Entry', width=40, command=lambda : DeleteEntry())
-btnEditEntry.grid(row=1, column=2, columnspan=2)
+btnDeleteEntry = Button(window, text='Delete Entry', width=40, command=lambda : DeleteEntry())
+btnDeleteEntry.grid(row=1, column=2, columnspan=2)
 
 # Middle Section
 middleFrame = Frame(window)
 middleFrame.grid(row=2, column=0, columnspan=3, pady=5)
 
-Radiobutton(middleFrame, text="Applications", variable=graph, value=Graph.DAILYAPPS.value).grid(row=0, column=0)
-Radiobutton(middleFrame, text="DASFHSFRTGJ", variable=graph, value=Graph.DAILYAPPS.value).grid(row=0, column=1)
+graph = 0
+Radiobutton(middleFrame, text="Applications", variable=graph, value=1).grid(row=0, column=0)
+Radiobutton(middleFrame, text="DASFHSFRTGJ", variable=graph, value=2).grid(row=0, column=1)
+Radiobutton(middleFrame, text="dgfshjmdghj", variable=graph, value=3).grid(row=0, column=2)
 
 # Bottom Section
-canvas = Canvas(window, width=800, height=250, highlightthickness=2, highlightbackground="black")
-canvas.grid(row=3, column=0, columnspan=3)
+figure = Figure(figsize=(7.5, 3), dpi=100)
+######################## Actual graph section
+graphManager = GUIGraphs.Graphs(database)
+graphManager.Graph_EntriesPerDay(figure)
+########################
+canvas = FigureCanvasTkAgg(figure, master=middleFrame)  
+canvas.draw()
+canvas.get_tk_widget().grid(columnspan=3)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
