@@ -133,10 +133,9 @@ btnDeleteEntry.grid(row=1, column=2, columnspan=2)
 middleFrame = Frame(window)
 middleFrame.grid(row=2, column=0, columnspan=3, pady=5)
 
-graph = 0
-Radiobutton(middleFrame, text="Applications", variable=graph, value=1).grid(row=0, column=0)
-Radiobutton(middleFrame, text="DASFHSFRTGJ", variable=graph, value=2).grid(row=0, column=1)
-Radiobutton(middleFrame, text="dgfshjmdghj", variable=graph, value=3).grid(row=0, column=2)
+Button(middleFrame, text="Applications Per Day", width=33).grid(row=0, column=0)
+Button(middleFrame, text="DASFHSFRTGJ", width=33).grid(row=0, column=1)
+Button(middleFrame, text="dgfshjmdghj", width=33).grid(row=0, column=2)
 
 # Bottom Section
 figure = Figure(figsize=(7.5, 3), dpi=100)
