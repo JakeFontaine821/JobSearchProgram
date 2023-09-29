@@ -135,18 +135,11 @@ btnDeleteEntry.grid(row=1, column=2, columnspan=2)
 middleFrame = Frame(window)
 middleFrame.grid(row=2, column=0, columnspan=3, pady=5)
 
-graphFigure = Figure(figsize=(7.5, 4), dpi=100)
+Button(middleFrame, text="Applications Per Day", width=33, command=lambda:graphManager.Graph_EntriesPerDay()).grid(row=0, column=0)
+Button(middleFrame, text="Results Per Day", width=33, command=lambda:graphManager.Graph_ResultsPerDay()).grid(row=0, column=1)
+Button(middleFrame, text="Placeholder", width=33, command=lambda:graphManager.Graph_Placeholder()).grid(row=0, column=2)
 
-Button(middleFrame, text="Applications Per Day", width=33).grid(row=0, column=0)
-Button(middleFrame, text="Results Per Day", width=33).grid(row=0, column=1)
-Button(middleFrame, text="Placeholder", width=33).grid(row=0, column=2)
-######################## Actual graph section
-graphManager.Graph_EntriesPerDay(graphFigure)
-########################
-canvas = FigureCanvasTkAgg(graphFigure, master=middleFrame)
-canvas.draw()
-canvas.get_tk_widget().grid(columnspan=3)
-
+graphManager.CreateCanvas(middleFrame)
 
 window.protocol("WM_DELETE_WINDOW", on_closing)
 window.mainloop()
