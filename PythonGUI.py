@@ -66,7 +66,7 @@ def ReloadEntries():
 def DeleteEntry():
     for index in list.curselection():
         entry = list.get(index)
-        database.DeleteEntry(entry[0])
+        database.DeleteEntry(entry.partition(".")[0])
     ReloadEntries()
 
 def UpdateEntry(eid, frame):
@@ -83,7 +83,7 @@ def CreateUpdateWindow():
         newWindow.title("Update Window")
         # Set Up Entry Boxes
         entry = list.get(list.curselection()[0])
-        entryData = database.RetrieveEntry(entry[0])
+        entryData = database.RetrieveEntry(entry.partition(".")[0])
         entryEID = entryData[0]
         updateFrame.txtCompanyName.insert(0, entryData[1])
         updateFrame.txtJobTitle.insert(0, entryData[2])
